@@ -1,14 +1,15 @@
-import "./App.css";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   fetchUsers,
   createUser,
   updateUser,
   deleteUser,
 } from "./components/Apis";
-import UsersList from "./components/UsersList";
+import UserList from "./components/UsersList";
+import UserForm from "./components/UserForm";
+import "./App.css";
 
-function App() {
+const App = () => {
   const [users, setUsers] = useState([]);
   const [editingUser, setEditingUser] = useState(null);
 
@@ -34,15 +35,20 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <h1>Axios</h1>
-      <UsersList
+    <div className="App container">
+      <h1 className="my-4">User Management</h1>
+      <UserForm
+        onAddUser={handleAddUser}
+        onUpdateUser={handleUpdateUser}
+        editingUser={editingUser}
+      />
+      <UserList
         users={users}
         onEditUser={setEditingUser}
         onDeleteUser={handleDeleteUser}
       />
     </div>
   );
-}
+};
 
 export default App;
