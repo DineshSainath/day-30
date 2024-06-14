@@ -6,6 +6,7 @@ import {
   updateUser,
   deleteUser,
 } from "./components/Apis";
+import UsersList from "./components/UsersList";
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -35,13 +36,11 @@ function App() {
   return (
     <div className="App">
       <h1>Axios</h1>
-      <ul>
-        {data.map((user) => (
-          <li key={user.id}>
-            <strong>{user.name}</strong>
-          </li>
-        ))}
-      </ul>
+      <UsersList
+        users={users}
+        onEditUser={setEditingUser}
+        onDeleteUser={handleDeleteUser}
+      />
     </div>
   );
 }
