@@ -6,20 +6,31 @@ import {
   updateUser,
   deleteUser,
 } from "./components/Apis";
-import axios from "axios";
 
 function App() {
-  const url = "https://jsonplaceholder.typicode.com/users";
-  const [data, setData] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [editingUser, setEditingUser] = useState(null);
 
   useEffect(() => {
-    axios
-      .get(url)
-      .then((response) => setData(response.data))
-      .catch((error) => console.error("Error fetching data:", error));
+    fetchUsers().then((response) => setUsers(response.data));
   }, []);
 
-  console.log(data);
+  const handleAddUser = (user) => {
+    createUser(user).then((response) => setUsers([...users, response.data]));
+  };
+
+  const handleUpdateUser = (updatedUser) => {
+    updateUser(updatedUser.id, updatedUser).then(() => {
+      setUsers(
+        users.map((user) => (user.id === updatedUser.id ? updatedUser : user)),
+      );
+    });
+    setEditingUser(null);
+  };
+
+  const handleDeleteUser = (id) => {
+    deleteUser(id).then(() => setUsers(users.filter((user) => user.id !== id)));
+  };
 
   return (
     <div className="App">
